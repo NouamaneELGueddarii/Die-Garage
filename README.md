@@ -1,11 +1,14 @@
 # Die-Garage
-ich habe diese Aufgabe so gelöst .
+Jedes wird als ein Thread repräsentiert.
+
 ## Die klassen:
- Ich habe für diese Aufgabe drei Klassen erzeugt.
- ** Parkhaus:
+ Ich habe für diese Aufgabe drei wesentlichen Klassen erzeugt.
  <ol>
-<li>Bird</li>
+<li>Parkhaus</li>
+ <p> diese Klasse enthält Informationen über den Parkhaus Z.B (wie viele freie Plätze es gibt)</p>
 <li>McHale</li>
+ <p></p>
 <li>Parish</li>
+ <p></p>
 </ol>
-   diese Klasse enthält Informationen über den Parkhaus Z.B (wie viele freie Plätze es gibt
+  
