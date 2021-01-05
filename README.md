@@ -5,10 +5,10 @@ Jedes wird als ein Thread repräsentiert.
  Ich habe für diese Aufgabe drei wesentlichen Klassen erzeugt.
  <ol>
 <li>Parkhaus</li>
- <p> diese Klasse enthält Informationen über den Parkhaus Z.B (wie viele freie Plätze es gibt)</p>
-<li>McHale</li>
+ <p> Die Parkhaus-Klasse enthält Informationen über den Parkhaus Z.B (wie viele freie Plätze es gibt)</p>
+<li>Fahrzeug</li>
  <p></p>
-<li>Parish</li>
+<li>Spot</li>
  <p></p>
 </ol>
   
