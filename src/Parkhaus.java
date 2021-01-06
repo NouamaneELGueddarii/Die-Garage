@@ -1,31 +1,39 @@
 import java.util.*;
-public class Parkhaus {
-	private int  parkEtagen;
-	private int parkPlacesProEtage;
-	private List<Spot>spots = Collections.synchronizedList(new ArrayList<Spot>());
-	private int etage;
-	private int parkplatz;
-	private int freePlaces;// to not have to iterate throughout the whole grid again to get the number of  free places 
 
+public class Parkhaus {
+	
+	private int  numOfFloors;
+	private int  freeSpotsProFloor;
+	
+	// list of the spots in the Parkhaus 
+	private List<Spot>spots = Collections.synchronizedList(new ArrayList<Spot>());
+	
+	private int parkingFloor;
+	private int parkPlaceInFloor;
+	private int freeSpots;
 	
 	
-	 public Parkhaus( int numEtagen, int parkplaces) {
+	 public Parkhaus( int numOfFloors, int parkplaces) {
 		super();
-		this. parkEtagen = numEtagen;
-		this.parkPlacesProEtage = parkplaces;
-		freePlaces = numEtagen*parkplaces;
-		etage = 1;
-		parkplatz = 1;
+		
+		this. numOfFloors = numOfFloors;
+		this.freeSpotsProFloor = parkplaces;
+		
+		// Der Nummer von freie Plätze berechnen
+		freeSpots = numOfFloors*parkplaces;
+		
+		// Um die parkSpot zu definieren
+		parkingFloor = 1;
+		parkPlaceInFloor = 1;
 	}
 
 	
 	
-	// park the auto 
-	synchronized public void Parken(Fahrzeug car) {		
+	synchronized public void Parken(Fahrzeug vehicule) {		
 		
-		// wait till there is a free spot in the ParkingLot
-		while(freePlaces <=0) {
-			System.out.println("Das Auto "+car+" muss warten bis ein platz frei ist! ");
+		// warten, bis ein freier Platz auf dem ParkingLot vorhanden ist
+		while(freeSpots <=0) {
+			System.out.println("Das Auto "+vehicule+" muss warten bis ein platz frei ist! ");
 			try {
                 wait();
             } catch (Exception e) {
@@ -33,61 +41,56 @@ public class Parkhaus {
             }
 		}
 		
-        System.out.println("Einfahrt erfolgreich: " + car + " fährt in das Parkhaus.");		
+        System.out.println("Einfahrt erfolgreich: " + vehicule + " fährt in das Parkhaus.");		
         
-	
-		if(freePlaces > 0) {
+		
 			
-			// the limit in an etage is reached  
-			if(parkplatz >= parkPlacesProEtage && etage <  parkEtagen) {
-				
-	            parkplatz = 1;
-	            etage++;
-	            
-	            spots.add(new Spot(etage,parkplatz,car));
-	            System.out.println("Parkplatz reserviert: " + car + " bekommt einen Parkplatz in etage "+etage + " spotNumber "+ parkplatz+" zugewiesen.");
-	            freePlaces --;
+			// der Grenzwert in einer Etage erreicht ist  
+			if(parkPlaceInFloor >= freeSpotsProFloor && parkingFloor <  numOfFloors) {
+	            parkPlaceInFloor = 1;
+	            parkingFloor++;
+	            spots.add(new Spot(parkingFloor,parkPlaceInFloor,vehicule));
+	            System.out.println("Parkplatz reserviert: " + vehicule + " ist ein Stellplatz auf Etage "+parkingFloor + " spotNummer "+ parkPlaceInFloor+" zugewiesen.");
+	            freeSpots --;
 	            status();
 	            
 			}else {
 				
-			// 	there are still places in an etage
-			spots.add(new Spot(etage,parkplatz,car));
-            System.out.println("Parkplatz reserviert: " + car + " bekommt einen Parkplatz in etage "+etage + " spotNumber "+ parkplatz+" zugewiesen.");
-			freePlaces --;
-			parkplatz++;
+			// 	noch freie Plätze in einer Etage vorhanden sind
+			spots.add(new Spot(parkingFloor,parkPlaceInFloor,vehicule));
+            System.out.println("Parkplatz reserviert: " + vehicule + " ist ein Stellplatz auf Etage "+parkingFloor + " spotNummer "+ parkPlaceInFloor+" zugewiesen.");
+			freeSpots --;
+			parkPlaceInFloor++;
             status();
 			}
 		}
-        notifyAll();
-		}
+		
 	
 	
-	synchronized public void exit(Fahrzeug car) {
-		Spot spotToRemove = spots.stream().filter(x->car.nummernsChild.equals(x.getFahrzeug().nummernsChild)).findAny().orElse(null);
+	synchronized public void verlassen(Fahrzeug vehicule) {
+		Spot spotToRemove = spots.stream().filter(x->vehicule.nummernsChild.equals(x.getFahrzeug().nummernsChild)).findAny().orElse(null);
 		spots.remove(spotToRemove);
-		freePlaces ++;
+		freeSpots ++;
 		
-		//update the etages  and the places
-		etage = spotToRemove.getEtage();
-		parkplatz=spotToRemove.getPlatz();
+		//Aktualisierung  von den Etagen und die Orte
+		parkingFloor = spotToRemove.getEtage();
+		parkPlaceInFloor=spotToRemove.getPlatz();
 		
-        System.out.println("Parkplatz verlassen: " + car + " fährt zur Ausfahrt.");
-		System.out.println("Status: der Platz in der Etage "+etage+" Num "+parkplatz+" ist wieder frei");
+        System.out.println("Parkplatz verlassen: " + vehicule + " fährt zur Ausfahrt.");
+		System.out.println("Status: der Platz auf der Etage "+parkingFloor+" Num "+parkPlaceInFloor+" ist wieder frei");
 
         notifyAll();
 
 	}	
 	
-	
-	public Spot getSpot(Fahrzeug car) {	
+	// gibt die Stelle eines Autos basierend auf dem Nummernschild zurück
+	synchronized public Spot getSpot(Fahrzeug car) {	
 		Spot spot = spots.stream().filter(x->car.nummernsChild.equals(x.getFahrzeug().nummernsChild)).findAny().orElse(null); 
 		return  spot;
 	}
 	
-	//
+	//gibt die freien Plätze jedes Mal an, wenn ein Auto geparkt wird oder abfährt
 	private void status () {
-		//System.out.println("Status: die Plätze in der Etage"+Etage+" Num "+parkplatz+"ist wider frei");
-        System.out.println("Status: Es sind noch " + freePlaces + " Parkplätze frei.");
+        System.out.println("Status: Es sind noch " + freeSpots + " Parkplätze frei.");
     }
 }

@@ -2,12 +2,12 @@
 public class Spot {
 	
 	private int etage;
-	private int platz;
+	private int spot;
 	private Fahrzeug fahrzeug;
 
 	public Spot(int i, int j ,Fahrzeug car) {
 		this.etage =i;
-		this.platz = j;
+		this.spot = j;
 		this.fahrzeug = car;
 	}
 	
@@ -26,15 +26,15 @@ public class Spot {
 		this.etage = etage;
 	}
 	public int getPlatz() {
-		return platz;
+		return spot;
 	}
 	public void setPlatz(int platz) {
-		this.platz = platz;
+		this.spot = platz;
 	}
 	
 	@Override
 	public String toString() {
-		return "Spot [etage=" + etage + ", platz=" + platz + ", fahrzeug=" + fahrzeug + "]";
+		return "Spot [etage=" + etage + ", platz=" + spot + "]";
 	}
 
 	

@@ -3,15 +3,15 @@ public class Fahrzeug extends Thread{
 	String nummernsChild;
 	String art;
 	Parkhaus parkhaus;
-	int parkenZeit;
+	int parkingTime;
 	int leavingTime;
 	
 	
-	public Fahrzeug(String nummernsChild, String art,int parkenZeit ,int leavingTime,Parkhaus parkhaus) {
+	public Fahrzeug(String nummernsChild, String art,int parkingTime ,int leavingTime,Parkhaus parkhaus) {
 
 		this.nummernsChild = nummernsChild;
 		this.art = art;
-		this.parkenZeit = parkenZeit;
+		this.parkingTime = parkingTime;
 		this.leavingTime = leavingTime;
 		this.parkhaus = parkhaus;
 	}
@@ -25,11 +25,11 @@ public class Fahrzeug extends Thread{
 	}
 
 	public int getParkenZeit() {
-		return parkenZeit;
+		return parkingTime;
 	}
 
 	public void setParkenZeit(int parkenZeit) {
-		this.parkenZeit = parkenZeit;
+		this.parkingTime = parkenZeit;
 	}
 	public String getArt() {
 		return this.art;
@@ -44,23 +44,28 @@ public class Fahrzeug extends Thread{
 		return "Fahrzeug [nummernsChild=" + nummernsChild + "]";
 	}
 	
+	
+	
 	public void run() {
 
-        System.out.println("Auto losgefahren: " + this);
+        System.out.println("Fahrzeug losgefahren: " + this);
 
 		this.parkhaus.Parken(this);
-		System.out.println("auto "+this+ " geparkt!");
+		
+		System.out.println("Das Fahrzeug "+this+ " ist in dem "+this.parkhaus.getSpot(this).toString()+" geparkt!");
+		
 		try {
-			sleep(parkenZeit);
+			sleep(parkingTime);
 		}catch (Exception e) {
+			
 		}
-		this.parkhaus.exit(this);
+		
+		this.parkhaus.verlassen(this);
 		
 		try {
 			sleep(leavingTime);
 		}catch (Exception e) {
 		}
-		System.out.println("-------------------------------");
 	}
 
 	
