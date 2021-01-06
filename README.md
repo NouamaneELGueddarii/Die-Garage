@@ -12,6 +12,6 @@ Jedes Fahrzeug f채hrt auf den Parkhaus und bekommt einen Spot .Wenn es keine Pl�
  <p>Jedes Fahrzeug wird als ein Thread repr채sentiert.jedes Auto hat eine Parkzeit und eine Zeit zum Verlassen des Parkhaus</p>
  
 <li>Spot</li>
- <p>enth채lt Informationen 체ber den Spot von jeden farhzeug</p>
+ <p>enth채lt Informationen 체ber den Spot jedes Farhzeug</p>
 </ol>
   
