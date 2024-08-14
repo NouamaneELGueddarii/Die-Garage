@@ -1,7 +1,7 @@
 # Die Haupt-Idee
 Jedes Fahrzeug fährt auf den Parkhaus und bekommt einen Spot. Wenn es keine Plätze gibt, dann das Fahrzeug muss warten bis einen Spot wieder frei ist.
 
-## Die  klassen:
+## Die  klassen
  Ich habe für diese Aufgabe drei wesentlichen Klassen erzeugt.
  <ol>
  
